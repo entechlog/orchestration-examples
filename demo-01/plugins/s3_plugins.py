@@ -80,7 +80,7 @@ class CopyFilesToS3Operator(BaseOperator):
         s3_hook = S3Hook(aws_conn_id=self.aws_conn_id)
 
         self.log.info(
-            f'starting to copy files from source s3 bucket {self.source_bucket_name}{self.source_bucket_key_prefix} to destination s3 bucket {self.dest_bucket_name}{self.dest_bucket_key_prefix}')
+            f'starting to copy files from source s3 bucket {self.source_bucket_name}/{self.source_bucket_key_prefix} to destination s3 bucket {self.dest_bucket_name}/{self.dest_bucket_key_prefix}')
 
         keys = s3_hook.list_keys(
             self.source_bucket_name, prefix=self.source_bucket_key_prefix)
@@ -97,7 +97,8 @@ class CopyFilesToS3Operator(BaseOperator):
                 source_bucket_name=self.source_bucket_name,
                 source_bucket_key=key,
                 dest_bucket_name=self.dest_bucket_name,
-                dest_bucket_key=self.dest_bucket_key_prefix+object_name
+                dest_bucket_key=self.dest_bucket_key_prefix+object_name,
+                acl_policy=self.acl_policy
             )
 
         if file_count != 0:

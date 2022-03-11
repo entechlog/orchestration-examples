@@ -14,6 +14,7 @@ temp_dir = tempfile.gettempdir()
 
 source_bucket_key_prefix = 'kafka-s3-demo-hourly-partitioner/mockaroo.sample.events/year=2021/month=02/day=08/hour=20/'
 dest_bucket_key_prefix = 'kafka-s3-demo-hourly-partitioner/mockaroo.sample.events/year=2021/month=02/day=08/hour=20/test/'
+acl_policy = 'bucket-owner-full-control'
 
 default_args = {
     'owner': 'airflow',
