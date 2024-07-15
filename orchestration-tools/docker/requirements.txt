@@ -1,0 +1,4 @@
+docker
+dbt-core
+dbt-snowflake
+prefect

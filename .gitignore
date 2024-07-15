@@ -165,6 +165,7 @@ terraform.rc
 
 # Other Terraform files
 .terraform.lock.hcl
+terraform.tfvars
 
 # Secrets and key files
 *.pkrvars.*
