@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  orchestration-tools:
+    image: entechlog/orchestration-tools${DEVELOPER_TOOLS_VERSION_TAG}
+    container_name: orchestration-tools
+    build: ./docker/
+    command: 
+      - bash 
+      - -c 
+      - |
+        echo "Launching orchestration-tools"
+        sleep infinity
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /C
+        target: /C
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    environment:
+      - TZ=Etc/GMT
+      - SAM_CLI_TELEMETRY=false
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    # Ensure the container runs with root user
+    user: root
