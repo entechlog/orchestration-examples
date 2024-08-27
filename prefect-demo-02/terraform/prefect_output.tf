@@ -1,4 +1,4 @@
-output "prefect_aws_credentials_block_id" {
-  value = prefect_block.aws_dat_prefect.id
+output "prefect_block_aws_credentials_prefect_id" {
+  value = prefect_block.aws_credentials_prefect.id
 }
 

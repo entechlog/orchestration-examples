@@ -1,7 +1,7 @@
 from prefect import flow, get_run_logger
 import socket
 
-@flow
+@flow(name="system-get-name")
 def get_system_name():
     # Get the system hostname
     system_name = socket.gethostname()

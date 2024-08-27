@@ -1,3 +1,0 @@
-dbt-snowflake==1.8.3
-awscli==1.32.68
-elementary-data==0.15.1

@@ -9,8 +9,17 @@ Ensure you have Prefect installed. If not, you can install it using pip:
 pip install prefect
 ```
 
+## Logging into Prefect Cloud
+To log in to Prefect Cloud, you need an API key. Once you have your key, you can log in using the following command:
+```bash
+export PREFECT_API_KEY=YOUR_API_KEY
+OR
+prefect cloud login -k YOUR_API_KEY
+```
+
+Replace YOUR_API_KEY with your actual Prefect Cloud API key.
+
 ## Configuration
-### Creating a prefect.yaml Template File
 To create a basic prefect.yaml template file, use the following command:
 
 ```bash
@@ -19,41 +28,40 @@ prefect init
 
 This command will generate a prefect.yaml file in your working directory, which you can modify according to your project's needs.
 
-## Authentication
-## Logging into Prefect Cloud
-To log in to Prefect Cloud, you need an API key. Once you have your key, you can log in using the following command:
-```bash
-prefect cloud login -k YOUR_API_KEY
-```
-
-Replace YOUR_API_KEY with your actual Prefect Cloud API key.
-
-
 ## Managing Flows
 ### Running a Flow
 To execute a flow, navigate to the directory containing your flow script and run:
 ```bash
-python example-flow-04.py
+python get_system_name.py
 ```
 
-Ensure that example-flow-04.py is the Python file where your flow is defined.
+Ensure that get_system_name.py is the Python file where your flow is defined.
+
+### Create image
+Create the docker image by running `./build_docker_image_dkr.sh`
 
 ### Creating a Deployment
 To deploy your flow to Prefect Cloud or server, use the following command:
 ```bash
-prefect deploy --name example_deployment_02
+prefect deploy --all
+prefect deploy --all --prefect-file prefect_local.yaml
+prefect deploy --all --prefect-file prefect_ecs.yaml
+prefect deploy --all --prefect-file prefect_dbt_shell.yaml
+prefect deploy --name get-system-name-dkr --prefect-file prefect_local.yaml
 ```
 
-Here example_deployment_02 is the name specified in your prefect.yaml for the deployment. This command will deploy your flow according to the configurations set in the prefect.yaml file.
+Here get-system-name-dkr is the name specified in your prefect.yaml for the deployment. This command will deploy your flow according to the configurations set in the prefect.yaml file.
 
 ### Running a Deployment
 To run a deployment, use the following command:
 
 ```bash
-prefect deployment run 'demo-flow/example_deployment_02'
+prefect deployment run 'demo-flow/get-system-name-dkr'
 ```
 
 ### AWS SSO
+This is required when using ECR
+
 ```bash
 # sso login
 aws configure sso
@@ -74,7 +82,18 @@ docker pull <account-id>.dkr.ecr.us-east-2.amazonaws.com/<image-name>:<tag-name>
 
 # Run the container with an interactive shell
 docker run -it <account-id>.dkr.ecr.us-east-2.amazonaws.com/<image-name>:<tag-name> /bin/bash
+docker run -it prefect-local-dbt:latest bash
 ```
+
+## Naming Standards 
+
+| **Item**        | **Naming Format**                         | **Example**                                          |
+| --------------- | ----------------------------------------- | ---------------------------------------------------- |
+| **Flows**       | `<project>-<detail>-<action>`             | `system-get-name`                                    |
+| **Deployments** | `<project>-<detail>-<action>`             | `system-get-name`                                    |
+| **Workpools**   | `<cloudCode>-<infraCode>-<number2Digits>` | `aws-ecs-01`, `local-dkr-01`                         |
+| **Blocks**      | `<platform>-<block_type>-<detail>`        | `aws-credential-prefect`, `snowflake-credential-dbt` |
+
 
 # Reference
 - https://github.com/PrefectHQ/prefect-recipes/tree/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-worker

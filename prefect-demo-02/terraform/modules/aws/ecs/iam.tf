@@ -93,7 +93,9 @@ resource "aws_iam_role" "prefect_worker_task_role" {
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:GetLogEvents",
-            "logs:PutLogEvents"
+            "logs:PutLogEvents",
+            "secretsmanager:GetSecretValue",
+            "kms:Decrypt"
           ]
           Effect   = "Allow"
           Resource = "*"

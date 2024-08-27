@@ -1,5 +1,5 @@
-resource "prefect_work_pool" "entechlog_data_ecs" {
-  name         = "${local.resource_name_prefix}-ecs"
+resource "prefect_work_pool" "aws_ecs_01" {
+  name         = "aws-ecs-01"
   type         = "ecs"
   workspace_id = prefect_workspace.dev.id
   paused       = false
@@ -8,7 +8,7 @@ resource "prefect_work_pool" "entechlog_data_ecs" {
     memory             = 1024,
     image              = "prefecthq/prefect:2-python3.10"
     vpc_id             = module.prefect_vpc.vpc_id,
-    task_role_arn      = module.prefect_ecs_cluster.prefect_worker_task_role_arn
+    task_role_arn      = module.prefect_ecs_cluster.prefect_worker_task_role_arn,
     execution_role_arn = module.prefect_ecs_cluster.prefect_worker_execution_role_arn,
     cluster            = module.prefect_ecs_cluster.prefect_worker_cluster_name,
     network_configuration = jsonencode({
@@ -16,6 +16,6 @@ resource "prefect_work_pool" "entechlog_data_ecs" {
       "securityGroups" : [module.prefect_ecs_cluster.prefect_worker_security_group],
       "assignPublicIp" : "DISABLED"
     }),
-    prefect_aws_credentials_block = prefect_block.aws_dat_prefect.id
+    prefect_aws_credentials_block = prefect_block.aws_credentials_prefect.id
   })
 }
