@@ -1,4 +1,3 @@
-docker
 dbt-core
 dbt-snowflake
 prefect
@@ -6,3 +5,4 @@ prefect-docker
 prefect-dbt-flow
 prefect-shell
 prefect-dbt
+prefect-snowflake

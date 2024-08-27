@@ -56,10 +56,11 @@ resource "aws_ecs_task_definition" "prefect_worker_task_definition" {
 }
 
 resource "aws_ecs_service" "prefect_worker_service" {
-  name          = "prefect-worker-${var.name}"
-  cluster       = aws_ecs_cluster.prefect_worker_cluster.id
-  desired_count = var.worker_desired_count
-  launch_type   = "FARGATE"
+  name                   = "prefect-worker-${var.name}"
+  cluster                = aws_ecs_cluster.prefect_worker_cluster.id
+  desired_count          = var.worker_desired_count
+  launch_type            = "FARGATE"
+  enable_execute_command = true
 
   // Public IP required for pulling secrets and images
   // https://aws.amazon.com/premiumsupport/knowledge-center/ecs-unable-to-pull-secrets/

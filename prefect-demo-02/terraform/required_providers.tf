@@ -6,6 +6,9 @@ terraform {
     prefect = {
       source = "prefecthq/prefect"
     }
+    docker = {
+      source = "kreuzwerker/docker"
+    }
   }
 }
 

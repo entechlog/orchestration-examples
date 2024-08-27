@@ -1,0 +1,35 @@
+name: demo
+prefect-version: 2.19.7
+
+# Since flows and deployments are in the same directory,
+# set_working_directory and entrypoint are configured accordingly.
+pull:
+- prefect.deployments.steps.set_working_directory:
+    id: clone-step
+    directory: /app/deployments/
+- prefect.deployments.steps.pip_install_requirements:
+    directory: "/app/flows"
+    requirements_file: requirements.txt
+    stream_output: True
+
+deployments:
+- name: demo-jaffle-shop-shell-dkr
+  entrypoint: ../flows/demo_jaffle_shop_shell.py:run_jaffle_shop
+  parameters:
+    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
+    backfill_start_date: ""  # Empty by default
+    backfill_end_date: ""  # Empty by default
+  work_pool:
+    name: local-dkr-01
+    work_queue_name: default
+    job_variables:
+      image: 'prefect-local-dbt:latest'
+      image_pull_policy: "Never"
+      env:
+        ENV_CODE: "dev"
+        PROJ_CODE: "entechlog"
+        DBT_PROJECT_DIR: "/app/"
+        DBT_PROFILES_DIR: "/app/"
+  schedules: []
+  tags: []
+  description: "Deployment for the Jaffle Shop project using Prefect-Shell."

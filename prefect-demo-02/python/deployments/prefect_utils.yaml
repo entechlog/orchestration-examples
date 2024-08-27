@@ -1,0 +1,27 @@
+name: demo-utils
+prefect-version: 2.19.7
+
+# Since flows and deployments are in the same directory,
+# set_working_directory and entrypoint are configured accordingly.
+pull:
+- prefect.deployments.steps.set_working_directory:
+    id: clone-step
+    directory: /app/deployments/
+- prefect.deployments.steps.pip_install_requirements:
+    directory: "/app/flows"
+    requirements_file: requirements.txt 
+    stream_output: True
+    
+deployments:
+- name: set-batch-date-dkr
+  entrypoint: ../flows/set_batch_cycle_date_flow.py:set_batch_cycle_date_flow
+  parameters: {}
+  work_pool:
+    name: local-dkr-01
+    work_queue_name: default
+    job_variables:
+      image: 'prefect-local-python:latest'
+      image_pull_policy: "Never"
+  schedules:
+  - cron: "1 0 * * *"  # Run at 00:00:01 UTC every day
+    timezone: "UTC"
