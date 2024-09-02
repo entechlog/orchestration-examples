@@ -1,4 +1,4 @@
-name: demo-local
+name: demo
 prefect-version: 2.19.7
 
 pull:
@@ -25,7 +25,8 @@ deployments:
 - name: get-batch-date-vars-dkr
   entrypoint: ../flows/get_batch_cycle_date_vars.py:get_batch_cycle_date_vars
   parameters:
-    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
+    # batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}" Sets and retains the vaule at deployment level
+    batch_cycle_date: "" # Gets pulled during run time
     # The following parameters will be set in the GUI during custom runs
     backfill_start_date: ""  # Empty by default
     backfill_end_date: ""  # Empty by default
@@ -40,8 +41,9 @@ deployments:
 - name: get-batch-date-utils-dkr
   entrypoint: ../flows/get_batch_cycle_date_utils.py:get_batch_cycle_date_utils
   parameters:
-    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
     # The following parameters will be set in the GUI during custom runs
+    run_type: "" # Empty by default
+    batch_cycle_date: "" # Empty by default
     backfill_start_date: ""  # Empty by default
     backfill_end_date: ""  # Empty by default
   work_pool:

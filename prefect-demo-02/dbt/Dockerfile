@@ -10,6 +10,18 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    # build-essential \
+    # curl \
+    # iputils-ping \
+    # lsof \
+    # net-tools \
+    # nmap \
+    # traceroute \
+    # mtr \
+    # htop \
+    # glances \
+    # atop \
+    # procps \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
