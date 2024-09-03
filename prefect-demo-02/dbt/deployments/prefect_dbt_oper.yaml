@@ -13,8 +13,8 @@ pull:
     stream_output: True
 
 deployments:
-- name: demo-jaffle-shop-dbt-flow-dkr
-  entrypoint: ../flows/demo_jaffle_shop_dbt_flow.py:run_jaffle_shop
+- name: demo-jaffle-shop-prefect-dbt-dkr
+  entrypoint: ../flows/demo_jaffle_shop_prefect_dbt_oper.py:run_jaffle_shop
   parameters:
     batch_cycle_date: ""  # Empty by default
     backfill_start_date: ""  # Empty by default

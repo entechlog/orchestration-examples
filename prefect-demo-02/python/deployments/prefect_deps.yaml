@@ -1,4 +1,4 @@
-name: demo-deps
+name: demo
 prefect-version: 2.19.7
 
 # Since flows and deployments are in the same directory,

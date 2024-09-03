@@ -16,7 +16,7 @@ deployments:
 - name: demo-jaffle-shop-shell-dkr
   entrypoint: ../flows/demo_jaffle_shop_shell.py:run_jaffle_shop
   parameters:
-    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
+    batch_cycle_date: ""  # Empty by default
     backfill_start_date: ""  # Empty by default
     backfill_end_date: ""  # Empty by default
   work_pool:

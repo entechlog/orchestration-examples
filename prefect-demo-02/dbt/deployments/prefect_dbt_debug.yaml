@@ -1,8 +1,6 @@
 name: demo
 prefect-version: 2.19.7
 
-# Since flows and deployments are in the same directory,
-# set_working_directory and entrypoint are configured accordingly.
 pull:
 - prefect.deployments.steps.set_working_directory:
     id: clone-step
@@ -13,12 +11,13 @@ pull:
     stream_output: True
 
 deployments:
-- name: demo-jaffle-shop-dbt-flow-dkr
-  entrypoint: ../flows/demo_jaffle_shop_dbt_flow.py:run_jaffle_shop
+- name: demo-jaffle-shop-dbt-debug-dkr
+  entrypoint: ../flows/demo_jaffle_shop_dbt_debug.py:run_jaffle_shop
   parameters:
     batch_cycle_date: ""  # Empty by default
     backfill_start_date: ""  # Empty by default
     backfill_end_date: ""  # Empty by default
+    loop_counter: 1  # Default to 1, can be overridden at runtime
   work_pool:
     name: local-dkr-01
     work_queue_name: default

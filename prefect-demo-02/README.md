@@ -43,11 +43,11 @@ Create the docker image by running `./build_docker_image_dkr.sh`
 ### Creating a Deployment
 To deploy your flow to Prefect Cloud or server, use the following command:
 ```bash
-prefect deploy --all
-prefect deploy --all --prefect-file prefect_local.yaml
-prefect deploy --all --prefect-file prefect_ecs.yaml
-prefect deploy --all --prefect-file prefect_dbt_shell.yaml
-prefect deploy --name get-system-name-dkr --prefect-file prefect_local.yaml
+prefect --no-prompt deploy --all
+prefect --no-prompt deploy --all --prefect-file prefect_local.yaml
+prefect --no-prompt deploy --all --prefect-file prefect_ecs.yaml
+prefect --no-prompt deploy --all --prefect-file prefect_dbt_shell.yaml
+prefect --no-prompt deploy --name get-system-name-dkr --prefect-file prefect_local.yaml
 ```
 
 Here get-system-name-dkr is the name specified in your prefect.yaml for the deployment. This command will deploy your flow according to the configurations set in the prefect.yaml file.
@@ -95,5 +95,12 @@ docker run -it prefect-local-dbt:latest bash
 | **Blocks**      | `<platform>-<block_type>-<detail>`        | `aws-credential-prefect`, `snowflake-credential-dbt` |
 
 
+## Known issues and solutions
+Issue: /bin/bash^M: bad interpreter: No such file or directory
+Solution : sed -i -e 's/\r$//' scriptname.sh
+
 # Reference
 - https://github.com/PrefectHQ/prefect-recipes/tree/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-worker
+- https://github.com/PrefectHQ/pacc-2024-v4
+- https://stackoverflow.com/questions/78483683/accessing-the-scheduled-time-from-within-a-prefect-flow-run
+- https://github.com/public-apis/public-apis

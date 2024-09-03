@@ -9,25 +9,22 @@ pull:
     directory: /app/deployments/
 - prefect.deployments.steps.pip_install_requirements:
     directory: "/app/flows"
-    requirements_file: requirements.txt
+    requirements_file: requirements.txt 
     stream_output: True
-
+    
 deployments:
-- name: demo-jaffle-shop-prefect-dbt-dkr
-  entrypoint: ../flows/demo_jaffle_shop_prefect_dbt.py:run_jaffle_shop
+- name: get-weather-data-open-meteo-dkr
+  entrypoint: ../flows/get_weather_data_open_meteo.py:get_weather_data_open_meteo
   parameters:
-    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
+    run_type: "" # Empty by default
+    batch_cycle_date: "" # Empty by default
     backfill_start_date: ""  # Empty by default
     backfill_end_date: ""  # Empty by default
+    lat: "40.7128"
+    lon: "-74.0060"
   work_pool:
     name: local-dkr-01
     work_queue_name: default
     job_variables:
-      image: 'prefect-local-dbt:latest'
+      image: 'prefect-local-python:latest'
       image_pull_policy: "Never"
-      env:
-        ENV_CODE: "dev"
-        PROJ_CODE: "entechlog"
-        DBT_PROJECT_DIR: "/app/"
-        DBT_PROFILES_DIR: "/app/"
-  schedules: []
