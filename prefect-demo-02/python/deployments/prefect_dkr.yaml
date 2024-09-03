@@ -11,8 +11,19 @@ pull:
     stream_output: True
 
 deployments:
-- name: get-system-name-dkr
-  entrypoint: ../flows/get_system_name.py:get_system_name
+- name: get-system-name-flow-dkr
+  entrypoint: ../flows/get_system_name_flow.py:get_system_name
+  parameters: {}
+  work_pool:
+    name: local-dkr-01
+    work_queue_name: default
+    job_variables:
+      image: 'prefect-local-python:latest'
+      image_pull_policy: "Never"
+  schedules: []
+
+- name: get-system-name-task-dkr
+  entrypoint: ../flows/get_system_name_task.py:get_system_name
   parameters: {}
   work_pool:
     name: local-dkr-01
