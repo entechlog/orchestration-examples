@@ -46,6 +46,14 @@ resource "aws_ecs_task_definition" "datadog_agent" {
         {
           name  = "DD_APM_ENABLED"
           value = "true"
+        },
+        {
+          name  = "DD_LOGS_ENABLED"
+          value = "false"
+        },
+        {
+          name  = "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL"
+          value = "false"
         }
       ]
       logConfiguration = {
