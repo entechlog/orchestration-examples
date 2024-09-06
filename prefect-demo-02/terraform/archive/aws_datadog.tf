@@ -42,6 +42,10 @@ resource "aws_ecs_task_definition" "datadog_agent" {
         {
           name  = "ECS_FARGATE"
           value = "true"
+        },
+        {
+          name  = "DD_APM_ENABLED"
+          value = "true"
         }
       ]
       logConfiguration = {
