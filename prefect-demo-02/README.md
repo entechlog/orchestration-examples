@@ -96,8 +96,9 @@ docker run -it prefect-local-dbt:latest bash
 
 
 ## Known issues and solutions
-Issue: /bin/bash^M: bad interpreter: No such file or directory
-Solution : sed -i -e 's/\r$//' scriptname.sh
+| **Issue**                                               | **Solution**                      |
+| ------------------------------------------------------- | --------------------------------- |
+| /bin/bash^M: bad interpreter: No such file or directory | sed -i -e 's/\r$//' scriptname.sh |
 
 # Reference
 - https://github.com/PrefectHQ/prefect-recipes/tree/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-worker
