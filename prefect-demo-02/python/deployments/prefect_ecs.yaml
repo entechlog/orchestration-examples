@@ -14,7 +14,7 @@ pull:
 
 deployments:
 - name: get-system-name-ecs
-  entrypoint: ../flows/get_system_name.py:get_system_name
+  entrypoint: ../flows/get_system_name_flow.py:get_system_name
   parameters: {}
   work_pool:
     name: aws-ecs-01

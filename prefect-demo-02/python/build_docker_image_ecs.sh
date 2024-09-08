@@ -2,7 +2,7 @@
 
 # Variables
 AWS_REGION="us-east-1"
-AWS_ACCOUNT_ID="<account-id>"
+#export AWS_ACCOUNT_ID="<account-id>"
 ECR_REPOSITORY_NAME="prefect-ecr"
 IMAGE_TAG="demo-flow"
 

@@ -78,7 +78,7 @@ variable "vpc_id" {
 
 variable "secrets_manager_recovery_in_days" {
   type        = number
-  default     = 30
+  default     = 0
   description = "Deletion delay for AWS Secrets Manager upon resource destruction"
 }
 

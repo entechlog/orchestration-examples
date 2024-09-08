@@ -1,5 +1,10 @@
 resource "aws_ecs_cluster" "prefect_worker_cluster" {
   name = "prefect-worker-${var.name}"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
 resource "aws_ecs_cluster_capacity_providers" "prefect_worker_cluster_capacity_providers" {
