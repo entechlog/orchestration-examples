@@ -8,7 +8,7 @@ pull:
     id: clone-step
     directory: /app/deployments/
 - prefect.deployments.steps.pip_install_requirements:
-    directory: "/app/flows"
+    directory: "/app"
     requirements_file: requirements.txt 
     stream_output: True
 

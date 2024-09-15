@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prefect-local-python  # Name the container for easier access
+    volumes:
+      - ./src:/app/src  # Mount the src directory to allow code changes without rebuilding
+      - ./deployments:/app/deployments  # Mount deployments directory
+      - ./requirements.txt:/app/requirements.txt  # Mount requirements for flexibility
+    env_file:
+      - .env  # Load environment variables from the .env file
+    environment:
+      - PYTHONUNBUFFERED=1
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo "===> Container is up and running, waiting indefinitely..."
+        tail -f /dev/null  # Keep the container running without any task
+    stdin_open: true  # Keep stdin open to allow interaction
+    tty: true  # Allocate a pseudo-TTY for the container
+    restart: unless-stopped
