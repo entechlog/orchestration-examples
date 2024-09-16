@@ -9,6 +9,27 @@ resource "prefect_block" "aws_credentials_prefect" {
   workspace_id = prefect_workspace.dev.id
 }
 
+variable "aws_access_key_id" {
+  type = string
+}
+
+variable "secret_access_key" {
+  type = string
+}
+
+resource "prefect_block" "aws_credentials" {
+  name      = "aws-credentials"
+  type_slug = "aws-credentials"
+
+  data = jsonencode({
+    "access_key_id"     = var.aws_access_key_id
+    "secret_access_key" = var.secret_access_key
+    "region_name"       = "us-east-1"
+  })
+
+  workspace_id = prefect_workspace.dev.id
+}
+
 variable "snowflake_account_dbt" {
   type = string
 }

@@ -87,18 +87,6 @@ resource "aws_ecs_task_definition" "prefect_datadog_agent_task_definition" {
         {
           name  = "DD_LOGS_ENABLED"
           value = "false"
-        },
-        {
-          name  = "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL"
-          value = "false"
-        },
-        {
-          "name" : "DD_DOGSTATSD_NON_LOCAL_TRAFFIC",
-          "value" : "true" // Allow DogStatsD to listen for metrics from all tasks
-        },
-        {
-          "name" : "DD_AUTODISCOVERY",
-          "value" : "true" // Enable Autodiscovery
         }
       ]
       logConfiguration = {

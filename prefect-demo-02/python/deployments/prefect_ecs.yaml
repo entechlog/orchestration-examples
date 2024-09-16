@@ -1,53 +1,60 @@
 name: demo
 prefect-version: 2.19.7
 
-# Since flows and deployments are in the same directory,
-# set_working_directory and entrypoint are configured accordingly.
 pull:
 - prefect.deployments.steps.set_working_directory:
     id: clone-step
     directory: /app/deployments/
 - prefect.deployments.steps.pip_install_requirements:
-    directory: "/app/flows"
+    directory: "/app"
     requirements_file: requirements.txt 
     stream_output: True
 
 deployments:
 - name: get-system-name-ecs
-  entrypoint: ../flows/get_system_name_flow.py:get_system_name
+  entrypoint: ../src/flows/get_system_name_flow.py:get_system_name
   parameters: {}
   work_pool:
     name: aws-ecs-01
     work_queue_name: default
     job_variables:
-      image: '<account-id>.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow'
+      image: "{{ prefect.variables.aws_account_id }}.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow"
   schedules: []
 
-
-- name: get-batch-date-vars-ecs
-  entrypoint: ../flows/get_batch_cycle_date_vars.py:get_batch_cycle_date_vars
+- name: get-system-name-debug-ecs
+  entrypoint: ../src/flows/get_system_name_debug.py:get_system_name
   parameters:
-    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
-    # The following parameters will be set in the GUI during custom runs
-    backfill_start_date: ""  # Empty by default
-    backfill_end_date: ""  # Empty by default
+    loop_counter: 0
+    delay_counter: 0
   work_pool:
     name: aws-ecs-01
     work_queue_name: default
     job_variables:
-      image: '<account-id>.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow'
+      image: "{{ prefect.variables.aws_account_id }}.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow"
+  schedules: []
+
+- name: get-batch-date-vars-ecs
+  entrypoint: ../src/flows/get_batch_cycle_date_vars.py:get_batch_cycle_date_vars
+  parameters:
+    batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
+    backfill_start_date: ""
+    backfill_end_date: ""
+  work_pool:
+    name: aws-ecs-01
+    work_queue_name: default
+    job_variables:
+      image: "{{ prefect.variables.aws_account_id }}.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow"
   schedules: []
 
 - name: get-batch-date-utils-ecs
-  entrypoint: ../flows/get_batch_cycle_date_utils.py:get_batch_cycle_date_utils
+  entrypoint: ../src/flows/get_batch_cycle_date_utils.py:get_batch_cycle_date_utils
   parameters:
     batch_cycle_date: "{{ prefect.variables.batch_cycle_date }}"
-    # The following parameters will be set in the GUI during custom runs
-    backfill_start_date: ""  # Empty by default
-    backfill_end_date: ""  # Empty by default
+    backfill_start_date: ""
+    backfill_end_date: ""
   work_pool:
     name: aws-ecs-01
     work_queue_name: default
     job_variables:
-      image: '<account-id>.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow'
+      image: "{{ prefect.variables.aws_account_id }}.dkr.ecr.us-east-1.amazonaws.com/prefect-ecr:demo-flow"
   schedules: []

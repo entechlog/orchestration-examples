@@ -1,4 +1,4 @@
-- [airflow-examples](#airflow-examples)
+- [Demos](#demos)
   - [Demo 01 - Astronomer Airflow](#demo-01---astronomer-airflow)
   - [Demo 02 - Apache Airflow](#demo-02---apache-airflow)
   - [Demo 03 - MWAA](#demo-03---mwaa)
@@ -7,7 +7,7 @@
 - [References](#references)
   - [MWAA](#mwaa)
 
-# airflow-examples
+# Demos
 
 ## [Demo 01 - Astronomer Airflow](airflow-demo-01/README.md)
 ## [Demo 02 - Apache Airflow](airflow-demo-02/README.md)

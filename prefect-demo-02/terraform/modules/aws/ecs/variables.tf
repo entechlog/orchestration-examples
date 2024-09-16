@@ -87,3 +87,13 @@ variable "worker_type" {
   default     = "ecs"
   description = "Prefect Worker type that gets passed into the prefect worker start command"
 }
+
+variable "enable_datadog" {
+  type    = bool
+  default = false
+}
+
+variable "datadog_api_key" {
+  type    = string
+  default = ""
+}
