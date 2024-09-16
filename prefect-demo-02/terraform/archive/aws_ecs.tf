@@ -8,6 +8,8 @@ module "prefect_ecs_cluster" {
   prefect_workspace_id  = prefect_workspace.dev.id
   worker_work_pool_name = "aws-ecs-01"
   vpc_id                = module.prefect_vpc.vpc_id
+  enable_datadog        = var.enable_datadog
+  datadog_api_key       = var.datadog_api_key
 }
 
 # ECS Output

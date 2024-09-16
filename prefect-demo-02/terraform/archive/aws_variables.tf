@@ -20,3 +20,13 @@ variable "remote_cidr_block" {
   type    = string
   default = ""
 }
+
+variable "enable_datadog" {
+  type    = bool
+  default = false
+}
+
+variable "datadog_api_key" {
+  type    = string
+  default = ""
+}

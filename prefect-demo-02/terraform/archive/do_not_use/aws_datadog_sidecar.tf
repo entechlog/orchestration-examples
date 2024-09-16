@@ -73,6 +73,10 @@ resource "aws_ecs_task_definition" "prefect_datadog_agent_task_definition" {
       ]
       environment = [
         {
+          "name" : "DD_SITE",
+          "value" : "us5.datadoghq.com"
+        },
+        {
           name  = "ECS_FARGATE"
           value = "true"
         },

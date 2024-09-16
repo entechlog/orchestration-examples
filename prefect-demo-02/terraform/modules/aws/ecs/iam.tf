@@ -15,7 +15,7 @@ resource "aws_iam_role" "prefect_worker_execution_role" {
   })
 
   inline_policy {
-    name = "ssm-allow-read-prefect-api-key-${var.name}"
+    name = "read-prefect-api-key-${var.name}"
     policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
@@ -33,8 +33,31 @@ resource "aws_iam_role" "prefect_worker_execution_role" {
       ]
     })
   }
+
+  dynamic "inline_policy" {
+    for_each = var.enable_datadog ? [1] : []
+    content {
+      name = "read-datadog-api-key-${var.name}"
+      policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+          {
+            Action = [
+              "kms:Decrypt",
+              "secretsmanager:GetSecretValue"
+            ]
+            Effect = "Allow"
+            Resource = [
+              aws_secretsmanager_secret.prefect_datadog_api_key[0].arn
+            ]
+          }
+        ]
+      })
+    }
+  }
+
   inline_policy {
-    name = "logs-allow-create-log-group-${var.name}"
+    name = "create-log-group-${var.name}"
     policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
