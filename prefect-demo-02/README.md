@@ -155,8 +155,7 @@ docker run -it prefect-local-dbt:latest bash
 
 | **Issue**                                               | **Solution**                      |
 | ------------------------------------------------------- | --------------------------------- |
-| /bin/bash^M: bad interpreter: No such file or directory | sed -i -e 's/
-$//' scriptname.sh |
+| /bin/bash^M: bad interpreter: No such file or directory | sed -i -e 's/$//' scriptname.sh |
 
 # Reference
 

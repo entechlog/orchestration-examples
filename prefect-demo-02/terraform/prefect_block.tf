@@ -55,3 +55,29 @@ resource "prefect_block" "snowflake_credentials_dbt" {
 
   workspace_id = prefect_workspace.dev.id
 }
+
+variable "pagerduty_api_key" {
+  type        = string
+  description = "API Key for PagerDuty integration"
+}
+
+variable "pagerduty_integration_key" {
+  type        = string
+  description = "Integration Key for PagerDuty"
+}
+
+resource "prefect_block" "pagerduty_credentials" {
+  name      = "pagerduty-credentials"
+  type_slug = "pager-duty-webhook"
+
+  data = jsonencode({
+    "api_key"         = var.pagerduty_api_key,
+    "integration_key" = var.pagerduty_integration_key,
+    "source"          = prefect_workspace.dev.name
+    "notify_type"     = "failure",
+    "region"          = "us",
+    "include_image"   = false
+  })
+
+  workspace_id = prefect_workspace.dev.id
+}
