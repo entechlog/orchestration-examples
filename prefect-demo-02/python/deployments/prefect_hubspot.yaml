@@ -1,4 +1,4 @@
-name: demo
+name: hubspot-customer-id-generation
 prefect-version: 2.19.7
 
 pull:
@@ -9,16 +9,17 @@ pull:
     directory: "/app"
     requirements_file: requirements.txt 
     stream_output: True
-    
+
 deployments:
-- name: demo-deps-run-all-dkr
-  # Path is determined by docker run -it prefect-local-python:latest ls /app/
-  entrypoint: flows/dependency/demo_dependency_run_all.py:run_all_flows
-  parameters: {}
+- name: hubspot-customer-id-generation-dkr
+  entrypoint: src/flows/update_hubspot_customer_id.py:generate_hubspot_customer_ids
+  parameters:
+    base_url: "https://api.hubapi.com/crm/v3/objects/companies"
+    is_dryrun: true
   work_pool:
     name: local-dkr-01
     work_queue_name: default
     job_variables:
-      image: 'prefect-local-python:latest'
+      image: "prefect-local-python:latest"
       image_pull_policy: "Never"
   schedules: []
