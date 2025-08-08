@@ -40,10 +40,10 @@ This command will generate a `prefect.yaml` file in your working directory, whic
 To execute a flow, navigate to the directory containing your flow script and run:
 
 ```bash
-python get_system_name.py
+python get_system_name_flow.py
 ```
 
-Ensure that `get_system_name.py` is the Python file where your flow is defined.
+Ensure that `get_system_name_flow.py` is the Python file where your flow is defined.
 
 ### Create Docker Image
 
@@ -55,24 +55,26 @@ Create the Docker image by running:
 
 ### Creating a Deployment
 
-To deploy your flow to Prefect Cloud or server, use the following command:
+To deploy your flow to Prefect Cloud or server, use the following command
 
 ```bash
 prefect --no-prompt deploy --all
-prefect --no-prompt deploy --all --prefect-file prefect_local.yaml
-prefect --no-prompt deploy --all --prefect-file prefect_ecs.yaml
-prefect --no-prompt deploy --all --prefect-file prefect_dbt_shell.yaml
-prefect --no-prompt deploy --name get-system-name-dkr --prefect-file prefect_local.yaml
+prefect --no-prompt deploy --all --prefect-file /app/deployments/prefect_deps.yaml
+prefect --no-prompt deploy --all --prefect-file /app/deployments/prefect_dkr.yaml
+prefect --no-prompt deploy --all --prefect-file /app/deployments/prefect_ecs.yaml
+prefect --no-prompt deploy --name get-weather-data-open-meteo-dkr --prefect-file /app/deployments/prefect_open_meteo.yaml
+prefect --no-prompt deploy --all --prefect-file /app/deployments/prefect_utils.yaml
+prefect --no-prompt deploy --all --prefect-file /app/deployments/prefect_hubspot.yaml
 ```
 
-Here `get-system-name-dkr` is the name specified in your `prefect.yaml` for the deployment. This command will deploy your flow according to the configurations set in the `prefect.yaml` file.
+Here `get-weather-data-open-meteo-dkr` is the name specified in your `prefect.yaml` for the deployment. This command will deploy your flow according to the configurations set in the `prefect.yaml` file.
 
 ### Running a Deployment
 
 To run a deployment, use the following command:
 
 ```bash
-prefect deployment run 'demo-flow/get-system-name-dkr'
+prefect deployment run 'get-batch-cycle-date-vars/get-batch-date-vars-dkr'
 ```
 
 ### Using the .env File
@@ -186,3 +188,6 @@ python get_pair_candles.py --base_url "https://community-api.coinmetrics.io/v4/t
 ```bash
 python get_pair_candles.py --base_url "https://community-api.coinmetrics.io/v4/timeseries" --endpoint "/pair-candles" --frequency "1d" --page_size "1500" --s3_bucket "dev-entechlog-landing-zone" --s3_key_prefix "source=coinmetrics/event_name=pair-candles" --run_type "daily"
 ```
+
+## Notes
+- Use `prefect block type --help` get the slug required to create blocks 

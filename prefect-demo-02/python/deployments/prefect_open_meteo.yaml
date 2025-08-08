@@ -1,12 +1,10 @@
 name: demo
 prefect-version: 2.19.7
 
-# Since flows and deployments are in the same directory,
-# set_working_directory and entrypoint are configured accordingly.
 pull:
 - prefect.deployments.steps.set_working_directory:
     id: clone-step
-    directory: /app/deployments/
+    directory: /app
 - prefect.deployments.steps.pip_install_requirements:
     directory: "/app"
     requirements_file: requirements.txt 
@@ -14,7 +12,7 @@ pull:
     
 deployments:
 - name: get-weather-data-open-meteo-dkr
-  entrypoint: ../flows/get_weather_data_open_meteo.py:get_weather_data_open_meteo
+  entrypoint: flows/get_weather_data_open_meteo.py:get_weather_data_open_meteo
   parameters:
     run_type: "" # Empty by default
     batch_cycle_date: "" # Empty by default

@@ -81,3 +81,55 @@ resource "prefect_block" "pagerduty_credentials" {
 
   workspace_id = prefect_workspace.dev.id
 }
+
+variable "teams_webhook_url" {
+  type        = string
+  description = "Webhook URL for Microsoft Teams"
+}
+
+resource "prefect_block" "teams_webhook" {
+  name      = "teams-webhook"
+  type_slug = "ms-teams-webhook"
+
+  data = jsonencode({
+    "webhook_url"   = var.teams_webhook_url,
+    "include_image" = false
+  })
+
+  workspace_id = prefect_workspace.dev.id
+}
+
+variable "email_recipients" {
+  type        = list(any)
+  description = "Email recipient address"
+}
+
+resource "prefect_block" "email_notification" {
+  name      = "email-addresses"
+  type_slug = "email"
+
+  data = jsonencode({
+    "emails" = var.email_recipients,
+  })
+
+  workspace_id = prefect_workspace.dev.id
+}
+
+variable "hubspot_access_token" {
+  type        = string
+  description = "HubSpot private app access token"
+  sensitive   = true
+}
+
+resource "prefect_block" "dat_hubspot_secret_keys" {
+  name      = "dat-hubspot-secret-keys"
+  type_slug = "secret"
+
+  data = jsonencode({
+    "value" = jsonencode({
+      "HUBSPOT_ACCESS_TOKEN" = "${var.hubspot_access_token}"
+    })
+  })
+
+  workspace_id = prefect_workspace.dev.id
+}
